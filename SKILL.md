@@ -1,17 +1,30 @@
 ---
 name: excalidraw-diagram
-description: Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts.
+description: Create native Excalidraw diagrams for educational workflows, architectures, and concept explainers, using a clean ByteByteGo-inspired visual system by default.
 ---
 
 # Excalidraw Diagram Creator
 
 Generate `.excalidraw` JSON files that **argue visually**, not just display information.
 
+The default visual profile is a clean, educational, ByteByteGo-inspired explainer style: strong headers, rounded colored panels, dotted flow arrows, flat iconography, clear section boundaries, and concrete examples. Read [references/bytebygo-style.md](references/bytebygo-style.md) before designing. The style is an inspiration only; do not copy logos, trademarks, proprietary illustrations, or exact artwork.
+
 **Setup:** If the user asks you to set up this skill (renderer, dependencies, etc.), see `README.md` for instructions.
 
 ## Customization
 
 **All colors and brand-specific styles live in one file:** `references/color-palette.md`. Read it before generating any diagram and use it as the single source of truth for all color choices — shape fills, strokes, text colors, evidence artifact backgrounds, everything.
+
+Unless the user explicitly requests another format, output a native `.excalidraw` scene. Do not create Mermaid as an intermediate or alternate output. Mermaid may be mentioned only when the user specifically wants a text-based diagram.
+
+Before designing, follow the mandatory editorial sequence in [references/format-router.md](references/format-router.md): **classify intent → write a short editorial brief → choose a format → build the scene → render → evaluate**. The router defines the supported formats and their guardrails; use it to select the dominant reading grammar before choosing a page recipe or placing elements.
+
+### Progressive reference routing
+
+- Before writing the brief, read [references/editorial-brief.md](references/editorial-brief.md) and capture the fields that materially constrain the scene.
+- For scenes containing actors, components, artifacts, processes, or non-trivial connections, read [references/semantic-grammar.md](references/semantic-grammar.md) and [references/relationship-grammar.md](references/relationship-grammar.md) before placing elements.
+- When the chosen format needs a comprehension-changing layout, read the matching guidance in [references/narrative-layouts.md](references/narrative-layouts.md). Do not force a listed layout when the content does not need it.
+- Load these references progressively; do not treat them as a second visual-style guide or duplicate [references/bytebygo-style.md](references/bytebygo-style.md).
 
 To make this skill produce diagrams in your own brand style, edit `color-palette.md`. Everything else in this file is universal design methodology and Excalidraw best practices.
 
@@ -162,12 +175,25 @@ Evidence artifacts, code snippets, and concrete examples within each section. Th
 
 ## Design Process (Do This BEFORE Generating JSON)
 
+### Mandatory editorial sequence
+
+For every diagram, complete these decisions in order:
+
+1. **Classify intent**: decide whether the primary teaching job is mechanism/how-it-works, architecture, workflow with gates, comparison, evolution/timeline, decision, cheat sheet/taxonomy, concept map, or pattern board.
+2. **Write a short editorial brief**: capture the audience, teaching question, one-sentence takeaway, scope, and reading direction. Keep it short enough to guide the scene while designing.
+3. **Choose the format**: consult [references/format-router.md](references/format-router.md) and select one dominant format. Do not default to a radial mind map when the content has causality or dependency.
+4. **Build the scene**: choose the page recipe, map concepts to visual patterns, establish the header and section boundaries, then place the main flow and evidence artifacts.
+5. **Render**: render the native `.excalidraw` output to PNG.
+6. **Evaluate**: inspect the rendered image against the brief and the chosen format, fix defects or weak visual arguments, and render again until it passes the quality checklist.
+
 ### Step 0: Assess Depth Required
 Before anything else, determine if this needs to be:
 - **Simple/Conceptual**: Abstract shapes, labels, relationships (mental models, philosophies)
 - **Comprehensive/Technical**: Concrete examples, code snippets, real data (systems, architectures, tutorials)
 
 **If comprehensive**: Do research first. Look up actual specs, formats, event names, APIs.
+
+Then choose a layout recipe from [references/bytebygo-style.md](references/bytebygo-style.md) that supports the format selected in the router: architecture explainer, pattern board, or compact system map.
 
 ### Step 1: Understand Deeply
 Read the content. For each concept, ask:
@@ -197,11 +223,15 @@ For multi-concept diagrams: **each major concept must use a different visual pat
 ### Step 4: Sketch the Flow
 Before JSON, mentally trace how the eye moves through the diagram. There should be a clear visual story.
 
+For the default ByteByteGo-inspired profile, establish the header, section boundaries, reading direction, main flow, feedback paths, and evidence artifacts before adding decorative detail. Prefer a small number of meaningful panels over a uniform grid.
+
 ### Step 5: Generate JSON
 Only now create the Excalidraw elements. **See below for how to handle large diagrams.**
 
 ### Step 6: Render & Validate (MANDATORY)
-After generating the JSON, you MUST run the render-view-fix loop until the diagram looks right. This is not optional — see the **Render & Validate** section below for the full process.
+After generating the JSON, you MUST run the render-view-fix loop until the diagram looks right and evaluate it against the editorial brief and selected format. This is not optional — see the **Render & Validate** section below for the full process.
+
+Before delivery, run `python scripts/validate_scene.py <path-to-file.excalidraw>` (or pass multiple scene paths). Read [references/quality-rubric.md](references/quality-rubric.md) for the short human review rubric after validation and rendering. The validator checks structural invariants; it does not replace visual or editorial judgment.
 
 ---
 
@@ -431,7 +461,7 @@ Settings: `fontSize: 16`, `fontFamily: 3`, `textAlign: "center"`, `verticalAlign
   "source": "https://excalidraw.com",
   "elements": [...],
   "appState": {
-    "viewBackgroundColor": "#ffffff",
+    "viewBackgroundColor": "#2E2E2E",
     "gridSize": 20
   },
   "files": {}

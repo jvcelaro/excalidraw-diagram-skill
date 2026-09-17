@@ -2,6 +2,8 @@
 
 **This is the single source of truth for all colors and brand-specific styles.** To customize diagrams for your own brand, edit this file — everything else in the skill is universal.
 
+The default profile is a ByteByteGo-inspired educational palette: high-contrast ink, bright cyan, mint, lavender, yellow, coral, and blue feedback. This is an original approximation for the user's vault, not a reproduction of ByteByteGo branding.
+
 ---
 
 ## Shape Colors (Semantic)
@@ -10,16 +12,18 @@ Colors encode meaning, not decoration. Each semantic purpose has a fill/stroke p
 
 | Semantic Purpose | Fill | Stroke |
 |------------------|------|--------|
-| Primary/Neutral | `#3b82f6` | `#1e3a5f` |
-| Secondary | `#60a5fa` | `#1e3a5f` |
-| Tertiary | `#93c5fd` | `#1e3a5f` |
-| Start/Trigger | `#fed7aa` | `#c2410c` |
-| End/Success | `#a7f3d0` | `#047857` |
-| Warning/Reset | `#fee2e2` | `#dc2626` |
-| Decision | `#fef3c7` | `#b45309` |
-| AI/LLM | `#ddd6fe` | `#6d28d9` |
-| Inactive/Disabled | `#dbeafe` | `#1e40af` (use dashed stroke) |
-| Error | `#fecaca` | `#b91c1c` |
+| Primary/Neutral | `#ffffff` | `#202124` |
+| Secondary/Cyan | `#bdeefa` | `#27aac7` |
+| Tertiary/Mint | `#b8f0d8` | `#19a873` |
+| Start/Trigger | `#ffd98a` | `#c78900` |
+| End/Success | `#b8f0d8` | `#19a873` |
+| Warning/Reset | `#ffd6d6` | `#d94a55` |
+| Decision | `#fff0a8` | `#c78900` |
+| AI/LLM | `#dcc8fa` | `#8643b8` |
+| Inactive/Disabled | `#e5e7eb` | `#64748b` (use dashed stroke) |
+| Error | `#ffc1c1` | `#d22f3a` |
+| Comparison/Violet | `#c4c7ff` | `#3f55c9` |
+| Accent/Pink | `#f0b6ee` | `#a33bd1` |
 
 **Rule**: Always pair a darker stroke with a lighter fill for contrast.
 
@@ -31,10 +35,10 @@ Use color on free-floating text to create visual hierarchy without containers.
 
 | Level | Color | Use For |
 |-------|-------|---------|
-| Title | `#1e40af` | Section headings, major labels |
-| Subtitle | `#3b82f6` | Subheadings, secondary labels |
-| Body/Detail | `#64748b` | Descriptions, annotations, metadata |
-| On light fills | `#374151` | Text inside light-colored shapes |
+| Title | `#202124` | Section headings, major labels |
+| Subtitle | `#27aac7` | Subheadings and title pills |
+| Body/Detail | `#374151` | Descriptions, annotations, metadata |
+| On light fills | `#202124` | Text inside light-colored shapes |
 | On dark fills | `#ffffff` | Text inside dark-colored shapes |
 
 ---
@@ -54,14 +58,25 @@ Used for code snippets, data examples, and other concrete evidence inside techni
 
 | Element | Color |
 |---------|-------|
-| Arrows | Use the stroke color of the source element's semantic purpose |
-| Structural lines (dividers, trees, timelines) | Primary stroke (`#1e3a5f`) or Slate (`#64748b`) |
-| Marker dots (fill + stroke) | Primary fill (`#3b82f6`) |
+| Main arrows | Ink (`#202124`), usually dotted or dashed |
+| Feedback arrows | Feedback blue (`#2f6edb`), dashed |
+| Comparison arrows | Accent pink (`#a33bd1`), dashed |
+| Structural lines (dividers, trees, timelines) | Ink (`#202124`) or Slate (`#64748b`) |
+| Marker dots (fill + stroke) | Cyan (`#27aac7`) |
 
 ---
 
 ## Background
 
+Use the **Light** profile by default. The **Dark** profile is optional and should be used only when explicitly requested; keep the semantic shape colors and visual grammar unchanged.
+
+| Profile | Canvas background | Canvas-level text guidance |
+|---------|-------------------|----------------------------|
+| Light (default) | `#2E2E2E` | Use the existing Title, Subtitle, and Body/Detail hierarchy. |
+| Dark (optional) | `#1e293b` | Use `#ffffff` for titles/details and `#bdeefa` for subtitles when text sits directly on the canvas. |
+
 | Property | Value |
 |----------|-------|
-| Canvas background | `#ffffff` |
+| Default canvas background | `#2E2E2E` |
+| Header divider | `#d1d5db` |
+| Header accent bar | `#35cdb0` |

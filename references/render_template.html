@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #ffffff; overflow: hidden; }
+    body { background: #2E2E2E; overflow: hidden; }
     #root { display: inline-block; }
     #root svg { display: block; }
   </style>
@@ -13,7 +13,7 @@
   <div id="root"></div>
 
   <script type="module">
-    import { exportToSvg } from "https://esm.sh/@excalidraw/excalidraw?bundle";
+    import { exportToSvg } from "https://esm.sh/@excalidraw/excalidraw@0.18.0?bundle";
 
     window.renderDiagram = async function(jsonData) {
       try {
@@ -22,8 +22,8 @@
         const appState = data.appState || {};
         const files = data.files || {};
 
-        // Force white background in appState
-        appState.viewBackgroundColor = appState.viewBackgroundColor || "#ffffff";
+        // Default to the light palette profile; preserve an explicitly requested profile.
+        appState.viewBackgroundColor = appState.viewBackgroundColor || "#2E2E2E";
         appState.exportWithDarkMode = false;
 
         const svg = await exportToSvg({
