@@ -7,7 +7,7 @@ description: Create native Excalidraw diagrams for educational workflows, archit
 
 Generate `.excalidraw` JSON files that **argue visually**, not just display information.
 
-The default visual profile is a clean, educational, ByteByteGo-inspired explainer style: strong headers, rounded colored panels, dotted flow arrows, flat iconography, clear section boundaries, and concrete examples. Read [references/bytebygo-style.md](references/bytebygo-style.md) before designing. The style is an inspiration only; do not copy logos, trademarks, proprietary illustrations, or exact artwork.
+The default visual profile is a clean, educational, ByteByteGo-inspired explainer style: strong headers, rounded colored panels, dotted flow arrows, flat iconography, clear section boundaries, and concrete examples. The standard canvas background is always `#181926` unless the user explicitly requests another color. Read [references/bytebygo-style.md](references/bytebygo-style.md) before designing. The style is an inspiration only; do not copy logos, trademarks, proprietary illustrations, or exact artwork.
 
 **Setup:** If the user asks you to set up this skill (renderer, dependencies, etc.), see `README.md` for instructions.
 
@@ -378,7 +378,9 @@ Choose shape based on what it represents—or use no shape at all:
 
 ## Color as Meaning
 
-Colors encode information, not decoration. Every color choice should come from `references/color-palette.md` — the semantic shape colors, text hierarchy colors, and evidence artifact colors are all defined there.
+Colors encode information, not decoration. Every color choice should come from `references/color-palette.md` — the semantic shape colors, canvas background, text hierarchy colors, and evidence artifact colors are all defined there.
+
+**Canvas background rule**: Set `appState.viewBackgroundColor` to `#181926` for every scene by default. Text placed directly on the canvas must use the dark-canvas text hierarchy from `references/color-palette.md` (light ink for titles/body and bright cyan for subtitles). Text inside light semantic fills should remain dark; text inside dark fills should remain white.
 
 **Key principles:**
 - Each semantic purpose (start, end, decision, AI, error, etc.) has a specific fill/stroke pair
@@ -461,7 +463,7 @@ Settings: `fontSize: 16`, `fontFamily: 3`, `textAlign: "center"`, `verticalAlign
   "source": "https://excalidraw.com",
   "elements": [...],
   "appState": {
-    "viewBackgroundColor": "#2E2E2E",
+    "viewBackgroundColor": "#181926",
     "gridSize": 20
   },
   "files": {}

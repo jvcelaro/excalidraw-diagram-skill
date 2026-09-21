@@ -35,9 +35,9 @@ Use color on free-floating text to create visual hierarchy without containers.
 
 | Level | Color | Use For |
 |-------|-------|---------|
-| Title | `#202124` | Section headings, major labels |
-| Subtitle | `#27aac7` | Subheadings and title pills |
-| Body/Detail | `#374151` | Descriptions, annotations, metadata |
+| Title | `#F8FAFC` | Section headings and major labels placed directly on the canvas |
+| Subtitle | `#67E8F9` | Subheadings and title pills placed directly on the canvas |
+| Body/Detail | `#E5E7EB` | Descriptions, annotations, and metadata placed directly on the canvas |
 | On light fills | `#202124` | Text inside light-colored shapes |
 | On dark fills | `#ffffff` | Text inside dark-colored shapes |
 
@@ -68,15 +68,14 @@ Used for code snippets, data examples, and other concrete evidence inside techni
 
 ## Background
 
-Use the **Light** profile by default. The **Dark** profile is optional and should be used only when explicitly requested; keep the semantic shape colors and visual grammar unchanged.
+Use the **#181926 canvas** profile by default. Keep the semantic shape colors and visual grammar unchanged; adapt direct-on-canvas text to the dark-canvas hierarchy below.
 
 | Profile | Canvas background | Canvas-level text guidance |
 |---------|-------------------|----------------------------|
-| Light (default) | `#2E2E2E` | Use the existing Title, Subtitle, and Body/Detail hierarchy. |
-| Dark (optional) | `#1e293b` | Use `#ffffff` for titles/details and `#bdeefa` for subtitles when text sits directly on the canvas. |
+| Standard (default) | `#181926` | Use `#F8FAFC` for titles, `#67E8F9` for subtitles, and `#E5E7EB` for body/details directly on the canvas. |
 
 | Property | Value |
 |----------|-------|
-| Default canvas background | `#2E2E2E` |
+| Default canvas background | `#181926` |
 | Header divider | `#d1d5db` |
 | Header accent bar | `#35cdb0` |
