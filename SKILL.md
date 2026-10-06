@@ -7,9 +7,9 @@ description: Create native Excalidraw diagrams for educational workflows, archit
 
 Generate `.excalidraw` JSON files that **argue visually**, not just display information.
 
-The default visual profile is a clean, educational, ByteByteGo-inspired explainer style: strong headers, rounded colored panels, dotted flow arrows, flat iconography, clear section boundaries, and concrete examples. The standard canvas background is always `#181926` unless the user explicitly requests another color. Read [references/bytebygo-style.md](references/bytebygo-style.md) before designing. The style is an inspiration only; do not copy logos, trademarks, proprietary illustrations, or exact artwork.
+The default visual profile is a clean, educational, ByteByteGo-inspired explainer style: strong headers, a dark canvas, semantically colored shapes, varied visual patterns, explicit flows, simple flat iconography, and concrete examples. Do not treat the style as a card theme: repeated equal panels are an anti-pattern unless the chosen format genuinely requires comparison. The standard canvas background is always `#181926` unless the user explicitly requests another color. Read [references/bytebygo-style.md](references/bytebygo-style.md) before designing. The style is an inspiration only; do not copy logos, trademarks, proprietary illustrations, or exact artwork.
 
-**Setup:** If the user asks you to set up this skill (renderer, dependencies, etc.), see `README.md` for instructions.
+**Setup:** The renderer uses a vendored local Excalidraw bundle, so PNG previews do not depend on a CDN. For first-time setup, install the Python/Chromium dependencies in `references/` with `uv sync` and `uv run playwright install chromium`. To rebuild the JavaScript bundle, run `npm ci` and `npm run build` in `references/renderer-build/`; the checked-in `references/excalidraw-renderer.js` is used at runtime.
 
 ## Customization
 
@@ -225,6 +225,8 @@ Before JSON, mentally trace how the eye moves through the diagram. There should 
 
 For the default ByteByteGo-inspired profile, establish the header, section boundaries, reading direction, main flow, feedback paths, and evidence artifacts before adding decorative detail. Prefer a small number of meaningful panels over a uniform grid.
 
+**Do not equate ByteByteGo style with cards.** Repeated, equal rounded panels are an anti-pattern unless the chosen format genuinely requires a comparison or pattern board. Select a dominant visual grammar that carries the teaching claim: rails/timelines for sequence, trees for hierarchy, funnels for convergence, assembly lines for transformations, decision gates for conditional choices, and aligned lanes for comparison. Use panels only for meaningful boundaries, artifacts, phases, or outcomes. Use icons or illustrations sparingly and only when they clarify the concept.
+
 ### Step 5: Generate JSON
 Only now create the Excalidraw elements. **See below for how to handle large diagrams.**
 
@@ -232,6 +234,8 @@ Only now create the Excalidraw elements. **See below for how to handle large dia
 After generating the JSON, you MUST run the render-view-fix loop until the diagram looks right and evaluate it against the editorial brief and selected format. This is not optional — see the **Render & Validate** section below for the full process.
 
 Before delivery, run `python scripts/validate_scene.py <path-to-file.excalidraw>` (or pass multiple scene paths). Read [references/quality-rubric.md](references/quality-rubric.md) for the short human review rubric after validation and rendering. The validator checks structural invariants; it does not replace visual or editorial judgment.
+
+**Final output contract:** for every final `name.excalidraw`, create `name.png` in the same directory. A temporary or alternate-path render is QA only; it does not satisfy delivery. Render to the sibling path (the renderer's default) or explicitly set the output there, confirm the PNG exists and has non-zero size, and inspect that exact sibling PNG. Link both the native scene and its PNG in the handoff.
 
 ---
 
@@ -494,6 +498,8 @@ After generating the initial JSON, run this cycle:
 
 **1. Render & View** — Run the render script, then Read the PNG.
 
+The PNG inspected in the final iteration must be the sibling deliverable (`name.png`). If an alternate temporary preview was used during iteration, render once more to the sibling path and inspect that final file before delivery.
+
 **2. Audit against your original vision** — Before looking for bugs, compare the rendered result to what you designed in Steps 1-4. Ask:
 - Does the visual structure match the conceptual structure you planned?
 - Does each section use the pattern you intended (fan-out, convergence, timeline, etc.)?
@@ -533,7 +539,7 @@ The loop is done when:
 - You'd be comfortable showing it to someone without caveats
 
 ### First-Time Setup
-If the render script hasn't been set up yet:
+If the Python renderer has not been set up yet (the JavaScript bundle is already included):
 ```bash
 cd .claude/skills/excalidraw-diagram/references
 uv sync
@@ -582,3 +588,4 @@ uv run playwright install chromium
 25. **Arrows land correctly**: Arrows connect to intended elements without crossing others
 26. **Readable at export size**: Text is legible in the rendered PNG
 27. **Balanced composition**: No large empty voids or overcrowded regions
+28. **Paired output**: A non-empty same-stem PNG exists beside every final `.excalidraw`, and that exact PNG was inspected.

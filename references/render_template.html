@@ -12,8 +12,9 @@
 <body>
   <div id="root"></div>
 
-  <script type="module">
-    import { exportToSvg } from "https://esm.sh/@excalidraw/excalidraw@0.18.0?bundle";
+  <script src="./excalidraw-renderer.js"></script>
+  <script>
+    const exportToSvg = window.excalidrawExportToSvg;
 
     window.renderDiagram = async function(jsonData) {
       try {
@@ -50,8 +51,6 @@
       }
     };
 
-    // Signal that the module is loaded and ready
-    window.__moduleReady = true;
   </script>
 </body>
 </html>

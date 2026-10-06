@@ -5,6 +5,7 @@ Use this profile as the default visual language for educational system diagrams.
 ## Output contract
 
 - Generate a native `.excalidraw` scene by default.
+- Generate a sibling `.png` for every final scene, using the same base filename and directory; inspect that exact PNG and include links to both files in the handoff. Temporary previews do not count as the delivered PNG.
 - Do not create Mermaid as an intermediate or alternate output unless the user explicitly asks for Mermaid.
 - Use `.excalidraw` templates for complete starting layouts. Use `.excalidrawlib` only when the user explicitly requests an importable Excalidraw stencil library; prefer creating/exporting that library through Excalidraw rather than hand-inventing its file schema.
 - Use SVG or PNG only for supporting icons and illustrations. Prefer SVG when a sharp, flat icon is available.
@@ -12,6 +13,10 @@ Use this profile as the default visual language for educational system diagrams.
 ## Visual objective
 
 The diagram should teach one idea at a glance. It must answer a concrete question, show a directional story, and make relationships visible through position, containment, line style, and color. It should feel like an educational explainer rather than a dashboard, card grid, or generic architecture poster.
+
+### Distinguish the style from a card layout
+
+ByteByteGo-inspired styling combines a dark canvas, editorial title hierarchy, disciplined semantic colors, explicit relationships, legible evidence, and a clear narrative path. It does **not** mean placing every idea in an identical rounded rectangle. Choose visual grammar from the concept: process rails for sequence, trees for hierarchy, funnels for convergence, timelines for change, comparison lanes for alternatives, and decision diamonds for gates. Use colored panels only where a real boundary, artifact, phase, or comparison needs containment. Avoid uniform grids of cards unless the selected format is specifically a pattern board or comparison.
 
 ## Page recipes
 
@@ -78,6 +83,7 @@ Choose one recipe before placing elements:
 5. Place the main flow, then add evidence artifacts and icons.
 6. Route arrows around shapes; never let a connector cross a label or land in empty space.
 7. Render the `.excalidraw` file and inspect the image before delivery.
+8. Render the final PNG beside the `.excalidraw` (same stem), verify it exists and is non-empty, inspect that exact PNG, and provide links to both deliverables.
 
 ## Anti-patterns
 

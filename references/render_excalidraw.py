@@ -78,7 +78,7 @@ def render(
     """Render an .excalidraw file to PNG. Returns the output PNG path."""
     # Import playwright here so validation errors show before import errors
     try:
-        from playwright.sync_api import sync_playwright
+        from playwright.sync_api import TimeoutError as PlaywrightTimeoutError, sync_playwright
     except ImportError:
         print("ERROR: playwright not installed.", file=sys.stderr)
         print("Run: cd .claude/skills/excalidraw-diagram/references && uv sync && uv run playwright install chromium", file=sys.stderr)
@@ -116,8 +116,13 @@ def render(
 
     # Template path (same directory as this script)
     template_path = Path(__file__).parent / "render_template.html"
+    bundle_path = Path(__file__).parent / "excalidraw-renderer.js"
     if not template_path.exists():
         print(f"ERROR: Template not found at {template_path}", file=sys.stderr)
+        sys.exit(1)
+    if not bundle_path.exists():
+        print(f"ERROR: Local Excalidraw bundle not found at {bundle_path}", file=sys.stderr)
+        print("Rebuild it using the instructions in SKILL.md.", file=sys.stderr)
         sys.exit(1)
 
     template_url = template_path.as_uri()
@@ -138,10 +143,18 @@ def render(
         )
 
         # Load the template
+        page_errors = []
+        page.on("pageerror", lambda error: page_errors.append(str(error)))
         page.goto(template_url)
 
-        # Wait for the ES module to load (imports from esm.sh)
-        page.wait_for_function("window.__moduleReady === true", timeout=30000)
+        # The vendored Excalidraw bundle is local; no CDN or network wait is needed.
+        try:
+            page.wait_for_function("window.__moduleReady === true", timeout=30000)
+        except PlaywrightTimeoutError:
+            details = "; ".join(page_errors) or "bundle did not signal readiness"
+            print(f"ERROR: Local Excalidraw bundle failed to load: {details}", file=sys.stderr)
+            browser.close()
+            sys.exit(1)
 
         # Inject the diagram data and render
         json_str = json.dumps(data)
